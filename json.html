@@ -1,0 +1,90 @@
+<html>
+    <head>
+        <title>CRUD</title>
+    </head>
+    <body>
+        
+        <table border="1">
+            <tr>
+                <td>Name :-</td>
+                <td><input type="text" id="name"></td>
+            </tr>
+            <tr>
+                <td>Email :-</td>
+                <td><input type="email" id="email"></td>
+            </tr>
+            <tr>
+                <td>Password :-</td>
+                <td><input type="password" id="password"></td>
+            </tr>
+            <tr>
+                <td><button type="button" value="submit" onclick="save()">Submit</button></td>
+            </tr>
+        </table>
+        <br><br>
+
+        <table border="10">
+            <tr>
+                <td>Name</td>
+                <td>Email</td>
+                <td>Password</td>
+            </tr>
+            <tbody id="record">
+
+            </tbody>
+        </table>
+
+    </body>
+</html>
+
+<script>
+
+    let data = [];
+    viewdata();
+    function save(){
+
+        let name = document.getElementById('name').value;
+        let email = document.getElementById('email').value;
+        let password = document.getElementById('password').value;
+
+        let obj = {
+            userid : id,
+            username : name,
+            useremail : email,
+            userpassword : password,
+        }
+        if(localStorage.getItem('crud') === null || localStorage.getItem('crud') == undefined){
+            data.push(obj);
+            localStorage.setItem('crud',JSON.stringify(val));
+        }
+        else{
+            let val = JSON.parse(localStorage.getItem('crud'));
+            val.push(obj);
+            localStorage.setItem('crud',JSON.stringify(val));
+        }
+        alert("Record Successfully Added");
+        document.getElementById('name').value = "";
+        document.getElementById('email').value = "";
+        document.getElementById('password').value = "";
+        viewdata();
+    }
+
+    function viewdata(){
+        let val = JSON.parse(localStorage.getItem('crud'));
+        let tbl = "";
+
+        for(let i in val){
+            tbl +=  `
+                        <tr>
+                            <td>${val[i].userid}</td>
+                            <td>${val[i].username}</td>
+                            <td>${val[i].useremail}</td>
+                            <td>${val[i].userpassword}</td>
+                            <td><button onclick="delete(${val[i].userid})">Delete</button></td>
+                        </tr>
+                    `
+        }
+        document.getElementById('record').value = tbl;
+    }
+
+</script>
